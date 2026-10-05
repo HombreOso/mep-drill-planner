@@ -61,6 +61,19 @@ python -m src.extract_anchor_points --demo --out examples/out/points.json
 | v0.3 | ROS 2 Jazzy sim: mobile base + arm visits points |
 | later | Perception / PyImageSearch: verify as-built holes from site photos |
 
+## Sample IFC sources
+
+Public MEP sample models used under `examples/` (CC BY 4.0):
+
+- **Zenodo DuplexModel+MEP** (Teclaw, 2024), DOI [10.5281/zenodo.10610773](https://doi.org/10.5281/zenodo.10610773) — `zenodo-duplex-ventilation.ifc` (Ventilation.ifc) and `zenodo-duplex-piping.ifc` (Piping.ifc).
+- **buildingSMART Duplex Apartment** `Duplex_MEP_20110907.ifc` — cite as BSI (2020) Duplex Apartment Test Files; saved as `buildingsmart-duplex-mep.ifc` (from [buildingsmart-community/Community-Sample-Test-Files](https://github.com/buildingsmart-community/Community-Sample-Test-Files)).
+
+```bash
+python -m src.extract_anchor_points examples/zenodo-duplex-ventilation.ifc --out examples/out/zenodo-duplex-ventilation-points.json
+python -m src.extract_anchor_points examples/zenodo-duplex-piping.ifc --out examples/out/zenodo-duplex-piping-points.json
+python -m src.extract_anchor_points examples/buildingsmart-duplex-mep.ifc --out examples/out/buildingsmart-duplex-mep-points.json
+```
+
 ## Notes
 
 - Never commit real project IFCs. Use anonymised / public sample models only.

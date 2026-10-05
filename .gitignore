@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .DS_Store
 *.ifc
+!examples/*.ifc
 !examples/sample/*.ifc
 examples/out/
 .idea/
