@@ -6,14 +6,21 @@ Turn an MEP IFC model into a list of ceiling anchor / drill points that a constr
 1. Pre-construction design automation: rule-check spacing, edge distances, and clashes before anyone drills.
 2. Construction-site robotics: feed the same points into a ROS 2 simulation (later), then into robots such as Hilti Jaibot or fischer BauBot.
 
-## Status (v0)
+## Progress
 
-- [x] Project scaffold
-- [ ] Parse an MEP IFC and extract candidate hanging / anchor locations
-- [ ] Export points as JSON (`x, y, z`, element id, type)
-- [ ] Rule checks (spacing, edge distance, structure clash)
-- [ ] HTML report
-- [ ] ROS 2 / Gazebo simulation that visits the points
+| Step | Status | What's done |
+|------|--------|-------------|
+| **0. Scaffold** | Done | Repo layout, `requirements.txt` (ifcopenshell), venv, `.gitignore`, public GitHub at [HombreOso/mep-drill-planner](https://github.com/HombreOso/mep-drill-planner) |
+| **1. Demo extractor** | Done | `--demo` writes 3 synthetic points to JSON (`id`, `x/y/z`, type, reason) |
+| **2. IFC → points** | Done (v0.1) | `extract_anchor_points` loads IFC, skips entity types missing from the file's schema (IFC2X3-safe), takes top-of-bbox as hanger candidates from FlowSegment / FlowFitting / BuildingElementProxy (and IFC4 duct/pipe/cable types when present) |
+| **3. Public sample IFCs** | Done | Three CC BY 4.0 models under `examples/` (Zenodo ventilation + piping, buildingSMART Duplex MEP); sources attributed below |
+| **4. Sample runs** | Done | Ventilation **320** pts · Piping **439** pts · Duplex MEP **785** pts → `examples/out/*-points.json` (local only; gitignored) |
+| **5. Rule checks** | Not started | Spacing, edge distance, structure clash |
+| **6. HTML report** | Not started | Human-readable map / table of points + rule failures |
+| **7. ROS 2 sim** | Not started | Mobile base + arm visits points (e.g. Gazebo / Jazzy) |
+| **8. Perception** | Later | PyImageSearch / CV: verify as-built holes from site photos |
+
+**Current focus:** tighten candidates (ceiling-level / hanger-like only), then rules + HTML report.
 
 ## Quick start
 
@@ -54,12 +61,12 @@ python -m src.extract_anchor_points --demo --out examples/out/points.json
 
 ## Roadmap
 
-| Milestone | What |
-|-----------|------|
-| v0.1 | IFC → points JSON from hangers / trays / ducts (this week) |
-| v0.2 | Spacing + edge-distance rule checks + HTML report |
-| v0.3 | ROS 2 Jazzy sim: mobile base + arm visits points |
-| later | Perception / PyImageSearch: verify as-built holes from site photos |
+| Milestone | Status | What |
+|-----------|--------|------|
+| **v0.1** | Done | IFC → points JSON on public MEP samples (schema-safe extractor) |
+| **v0.2** | Next | Ceiling/hanger filtering · spacing + edge-distance rules · HTML report |
+| **v0.3** | Planned | ROS 2 Jazzy sim: mobile base + arm visits points |
+| **later** | Planned | Perception / PyImageSearch: verify as-built holes from site photos |
 
 ## Sample IFC sources
 
