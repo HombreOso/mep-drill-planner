@@ -77,9 +77,15 @@ def extract_from_ifc(ifc_path: Path, types: tuple[str, ...] = DEFAULT_TYPES) -> 
     settings = ifcopenshell.geom.settings()
     settings.set(settings.USE_WORLD_COORDS, True)
 
+    # Skip IFC4-only (or otherwise absent) type names on older schemas such as IFC2X3.
+    schema = ifcopenshell.schema_by_name(model.schema)
+    schema_types = {entity.name() for entity in schema.entities()}
+
     points = []
     n = 0
     for type_name in types:
+        if type_name not in schema_types:
+            continue
         for el in model.by_type(type_name):
             try:
                 shape = ifcopenshell.geom.create_shape(settings, el)
